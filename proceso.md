@@ -75,6 +75,9 @@ We need to install some essential tools:
 	- This step is optional.
 	- In my case, to work faster:
 		- I've installed:
+			- man:
+
+					sudo apt-get install man -y
 			- vim
 
 					sudo apt-get install vim -y
@@ -130,8 +133,24 @@ We need to install some essential tools:
 			DATE MACHINE_NAME sshd[ID]: Server listening on 0.0.0.0 port 4242.
 			DATE MACHINE_NAME sshd[ID]: Server listening on :: port 4242.
 
+## Setup firewall:
+### Install UFW (Uncomplicated firewall):
+		sudo apt install ufw
 
+### Useful commands:
+|Name|Command|Description|
+|:---:|:---:|:---:|
+|Enable UFW|``sudo ufw enable``|Enables UFW and enables it on system startup.|
+<!-- |Check UFW status|``sudo ufw status numbered``|| -->
+|Check UFW status|``sudo ufw status numbered``|Show the current status and rules of UFW. The param *numbered* shows the index of each one to show |
+|Allow ssh|``sudo ufw allow ssh``|Allows to use ssh|
+|Open port|``sudo ufw allow PORT``|Opens the given port (ei: 4242)|
+||````||
+||````||
 
+### Setup UFW:
+- [Enable UFW](#Useful-commands)
+- [](#Useful-commands)
 
 ## Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root.
@@ -141,3 +160,4 @@ We need to install some essential tools:
 	- DATE
 	- MACHINE_NAME
 	- ID
+	- PORT

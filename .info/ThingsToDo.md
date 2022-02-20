@@ -7,3 +7,5 @@
 ## To do:
 
 
+- Probar con:
+	cat /dev/zero /dev/null
