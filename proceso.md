@@ -1,5 +1,8 @@
 # Born 2 be root
 
+- This guide was made for the project 42Cursus-Born2beroot.
+- This guide is designed for those who already created a debian-virtual machine.
+
 ## Install sudo:
 
 Install the sudo command to execute super user commands without being root.
@@ -49,5 +52,43 @@ For example, now you should be able to execute this command without being root:
 	sudo apt update
 
 
+## Installing tools:
+We need to install some essential tools:
+
+### Updating and upgrading the current packages:
+
+	sudo apt update -y && sudo apt upgrade -y
+
+- git:
+
+		sudo apt-get install git -y
+	- Check if installed correctly:
+
+			git --version
+
+
+- wget or curl:
+	- Both of these tools allows to download content from a given URL.
+	- They are not 100% essential but they are just convenient.
+	- In my case, i've downloaded wget using:
+
+		sudo apt-get install wget -y
+
+- Personalization tools:
+	- This step is optional.
+	- In my case, to work faster:
+		- I've installed:
+			- vim
+
+					sudo apt-get install vim -y
+			- zsh
+
+					sudo apt-get install zsh -y
+
+			- [Oh my zsh](https://ohmyz.sh/)
+		- I've edited both *~/.zshrc** and **~/.vimrc** with the basic things I need to work smarter and faster.
+		- Also keep in mind that these tools are light weight and easy to remove if needed, so you can remove them any time.
+	- Remember that installing a graphic interface is forbidden.
+
 ## Notes:
-- When the command *su -* is present, the intention is to be executed as root.
+- When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root.
