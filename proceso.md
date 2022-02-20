@@ -59,13 +59,10 @@ We need to install some essential tools:
 
 	sudo apt update -y && sudo apt upgrade -y
 
+### Installing the tools:
 - git:
 
 		sudo apt-get install git -y
-	- Check if installed correctly:
-
-			git --version
-
 
 - wget or curl:
 	- Both of these tools allows to download content from a given URL.
@@ -86,9 +83,13 @@ We need to install some essential tools:
 					sudo apt-get install zsh -y
 
 			- [Oh my zsh](https://ohmyz.sh/)
-		- I've edited both *~/.zshrc** and **~/.vimrc** with the basic things I need to work smarter and faster.
+		- I've edited both **~/.zshrc** and **~/.vimrc** with the basic things I need to work smarter and faster.
 		- Also keep in mind that these tools are light weight and easy to remove if needed, so you can remove them any time.
 	- Remember that installing a graphic interface is forbidden.
 
+
+## 
+
 ## Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root.
+- When following this guide, please check that the previous step has worked before going to the next.
