@@ -95,7 +95,7 @@ We need to install some essential tools:
 ### Installing SSH:
 		sudo apt-get update && sudo apt-get install openssh-server -y
 
-### Useful commands:
+### SSH Useful commands:
 
 |Name|Command|Description|
 |:---:|:---:|:---:|
@@ -104,8 +104,8 @@ We need to install some essential tools:
 |Check port settings|``sudo grep Port /etc/ssh/sshd_config``|Allows to see the current configuration of the port settings (NOT THE SERVICE).|
 
 ### Configuration:
-- [Check server status](#Useful-commands)
-- [Restart SSH service](#Useful-commands)
+- [Check server status](#SSH-Useful-commands)
+- [Restart SSH service](#SSH-Useful-commands)
 - Change default port (22) to 4242:
 	- Open with sudo the configuration file.
 
@@ -120,8 +120,8 @@ We need to install some essential tools:
 	- Save and exit (verify the file has been edited correctly).
 
 - Restart server:
-	- If you use [Check server status](#Useful-commands) again, you will see that nothing has changed. That is because the change will not take effect until the service is restarted. Therefore, use [Restart SSH service](#Useful-commands).
-	- If done correctly, it is possible to see in the log of [Check server status](#Useful-commands) that the server is now listening on 4242 port.
+	- If you use [Check server status](#SSH-Useful-commands) again, you will see that nothing has changed. That is because the change will not take effect until the service is restarted. Therefore, use [Restart SSH service](#SSH-Useful-commands).
+	- If done correctly, it is possible to see in the log of [Check server status](#SSH-Useful-commands) that the server is now listening on 4242 port.
 	- Also you can see that the ID has changed as expected.
 	- Example:
 
@@ -137,7 +137,7 @@ We need to install some essential tools:
 ### Install UFW (Uncomplicated firewall):
 		sudo apt install ufw
 
-### Useful commands:
+### UFW Useful commands:
 |Name|Command|Description|
 |:---:|:---:|:---:|
 |Enable UFW|``sudo ufw enable``|Enables UFW and enables it on system startup.|
@@ -147,9 +147,9 @@ We need to install some essential tools:
 |Remove port|``sudo ufw delete PORT_ID``|Removes a the given port (the number when executing ``sudo ufw status numbered``)|
 
 ### Setup UFW:
-- [Enable UFW](#Useful-commands)
-- [Check UFW status](#Useful-commands)
-- [Allow SSH](#Useful-commands)
+- [Enable UFW](#UFW-Useful-commands)
+- [Check UFW status](#UFW-Useful-commands)
+- [Allow SSH](#UFW-Useful-commands)
 
 		sudo ufw allow ssh
 - Configure port rules:
@@ -160,6 +160,26 @@ We need to install some essential tools:
 	- Remove all the other rules. If done correctly, you should have something like this:
 	![ufw_result](./res/ufw_result.png)
 
+## Allow SSH connection using Virtualbox:
+- Go to VirtualBox-> Choose the VM->Select Settings
+- Choose “Network”-> “Adapter 1"->”Advanced”->”Port Forwarding”
+- Add a new one with the following values:
+
+	|Name|Protocol|Host IP|Host Port|Guest IP|Guest Port|
+	|:---:|:---:|:---:|:---:|:---:|:---:|
+	|SSH|TCP||4242||4242|
+
+- For this configuration to be applied, you must [Restart SSH server](#SSH-Useful-commands).
+
+		sudo systemctl restart ssh
+
+- From now own, you can enter the machine from your host machine using:
+
+		ssh USER@127.0.0.1 -p 4242
+
+
+
+
 ## Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root.
 - When following this guide, please check that the previous step has worked before going to the next.
@@ -169,3 +189,4 @@ We need to install some essential tools:
 	- MACHINE_NAME
 	- ID
 	- PORT
+	- USER
