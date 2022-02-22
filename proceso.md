@@ -141,16 +141,24 @@ We need to install some essential tools:
 |Name|Command|Description|
 |:---:|:---:|:---:|
 |Enable UFW|``sudo ufw enable``|Enables UFW and enables it on system startup.|
-<!-- |Check UFW status|``sudo ufw status numbered``|| -->
 |Check UFW status|``sudo ufw status numbered``|Show the current status and rules of UFW. The param *numbered* shows the index of each one to show |
 |Allow ssh|``sudo ufw allow ssh``|Allows to use ssh|
 |Open port|``sudo ufw allow PORT``|Opens the given port (ei: 4242)|
-||````||
-||````||
+|Remove port|``sudo ufw delete PORT_ID``|Removes a the given port (the number when executing ``sudo ufw status numbered``)|
 
 ### Setup UFW:
 - [Enable UFW](#Useful-commands)
-- [](#Useful-commands)
+- [Check UFW status](#Useful-commands)
+- [Allow SSH](#Useful-commands)
+
+		sudo ufw allow ssh
+- Configure port rules:
+	- Open 4242:
+
+			sudo ufw allow 4242
+
+	- Remove all the other rules. If done correctly, you should have something like this:
+	![ufw_result](./res/ufw_result.png)
 
 ## Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root.
