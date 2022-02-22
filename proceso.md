@@ -178,7 +178,35 @@ We need to install some essential tools:
 		ssh USER@127.0.0.1 -p 4242
 
 
+## Set up password policy:
+This step will allow us to enforce some requirements on the passwords generated from now on.
+- Install the library to check password quality:
 
+		sudo apt-get install libpam-pwquality
+
+- Change the length:
+	- Open the file:
+
+			sudo nano /etc/pam.d/common-password
+
+	- Find the line:
+
+			password [success=2 default=ignore] pam_unix.so obscure sha512
+
+		- Add ```minlen=10``` at the end:
+
+				password [success=2 default=ignore] pam_unix.so obscure sha512 minlen=10
+	- Configure the rest of the settings. Find the line:
+
+			password requisite pam_pwquality.so retry=3
+
+		- Add the following at the end:
+
+				password requisite pam_pwquality.so retry=3 lcredit =-1 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=0 difok=7 enforce_for_root
+
+		|Element|Explanation|
+		|:--:|:--:|
+		|||
 
 ## Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root.
