@@ -219,6 +219,15 @@ This step will allow us to enforce some requirements on the passwords generated 
 		- Add ```minlen=10``` at the end:
 
 				password [success=2 default=ignore] pam_unix.so obscure sha512 minlen=10
+
+	|Element|Explanation|
+	|:---:|:---:|
+	|obscure|Do some tests on the password: Palindrome, case sensitive...|
+	|sha512|Use this type of encryption|
+	|||
+	|||
+
+
 	- Configure the rest of the settings. Find the line:
 
 			password requisite pam_pwquality.so retry=3
