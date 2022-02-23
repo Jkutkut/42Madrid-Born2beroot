@@ -184,7 +184,30 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 		sudo apt-get install libpam-pwquality
 
-- Change the length:
+- Change expiration rules:
+	- Open the file:
+
+			sudo nano /etc/login.defs
+
+	- Modify the following rules:
+
+			PASS_MAX_DAYS 9999
+			PASS_MIN_DAYS 0
+			PASS_WARN_AGE 7
+
+	|Command|Explanation|
+	|:---:|:---:|
+	|```PASS_MAX_DAYS``` N|Maximum life of a single password.|
+	|```PASS_MIN_DAYS``` N|Minimum life of a single password (0 to disable).|
+	|```PASS_WARN_AGE``` N|Recieve a notification N days before remembering to change it.|
+
+	- In my case, it ended up with:
+
+			PASS_MAX_DAYS 30
+			PASS_MIN_DAYS 2
+			PASS_WARN_AGE 7
+
+- Change the password quality rules:
 	- Open the file:
 
 			sudo nano /etc/pam.d/common-password
@@ -204,9 +227,19 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 				password requisite pam_pwquality.so retry=3 lcredit =-1 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=0 difok=7 enforce_for_root
 
-		|Element|Explanation|
-		|:--:|:--:|
-		|||
+	|Element|Explanation|
+	|:--:|:--:|
+	|```lcredit=```N|Minimum number of *lower-case* characters.|
+	|```ucredit=```N|Minimum number of *upper-case* characters.|
+	|```dcredit=```N|Minimum number of *digit* characters.|
+	|```maxrepeat=```N|Maximun character repetition.|
+	|```usercheck=```N|If the password can contain the user name in some form (1: ON, 0: OFF).|
+	|```difok=```N|Minimum number of chararters that must be different from the previous password.|
+	|```enforce_for_root```|This rules also apply for root users.|
+
+- And that's it! Just reboot the machine to affect the changes.
+
+		sudo reboot
 
 ## Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root.
@@ -218,3 +251,4 @@ This step will allow us to enforce some requirements on the passwords generated 
 	- ID
 	- PORT
 	- USER
+	- N
