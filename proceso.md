@@ -216,17 +216,19 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 			password [success=2 default=ignore] pam_unix.so obscure sha512
 
-		- Add ```minlen=10``` at the end:
+		- Add the following:
 
-				password [success=2 default=ignore] pam_unix.so obscure sha512 minlen=10
+				password [success=2 default=ignore] pam_unix.so obscure use_authtok try_first_pass sha512 minlen=10
 
 	|Element|Explanation|
 	|:---:|:---:|
-	|obscure|Do some tests on the password: Palindrome, case sensitive...|
-	|sha512|Use this type of encryption|
-	|||
-	|||
+	|```obscure```|Do some tests on the password: Palindrome, case sensitive...|
+	|```use_authtok```||
+	|```try_first_pass```||
+	|```sha512```|Use this type of encryption|
+	|```minlen=```N||
 
+	<br>
 
 	- Configure the rest of the settings. Find the line:
 
