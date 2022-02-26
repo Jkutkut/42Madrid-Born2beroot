@@ -355,9 +355,23 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 		sudo mkdir -p /var/log/sudo
 
+
+## Crontab configuration:
+This steps will allow us to "run commands in a specific time and date".
+
+- Installation:
+
+		sudo apt-get update -y
+		sudo apt-get install -y net-tools
+
+- Place the script you want to execute periodically ([monitoring.sh](./monitoring.sh)) on the directory ```/usr/local/bin/```.
+
 # Defense:
 ## Hostname:
-
+|Command|Explanation|
+|:---:|:---:|
+|```hostnamectl```|Check current hostname (among other things).|
+|```sudo hostnamectl set-hostname``` HOSTNAME|Change the hostname. Also remember to update the HOSTNAME on the file ```/etc/hosts```. Needs **reboot**.|
 
 
 # Notes:
