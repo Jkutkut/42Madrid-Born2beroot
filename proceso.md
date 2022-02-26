@@ -257,6 +257,37 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 		sudo reboot
 
+	From now own, every user you **create** will have to follow this rules.
+
+- If you run now:
+
+		chage -l USER
+
+	and
+
+		sudo chage -l root
+
+	You will see that the configuration of USER's password expiration has not changed. To change it:
+
+		sudo chage USER
+
+	and
+
+		sudo chage root
+
+	- Example of execution:
+
+	![sudo chage USER](res/chage_user.png)
+	![chage -l USER](res/chage_l_user.png)
+	![sudo chage root](res/chage_root.png)
+	![sudo chage -l root](res/chage_l_root.png)
+
+- Change passwords of both USER and root:
+
+		passwd USER
+
+		sudo passwd root
+
 ## Configure groups of user:
 ### Useful commands:
 |Command|Explanation|
