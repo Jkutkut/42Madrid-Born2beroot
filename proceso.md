@@ -39,9 +39,9 @@ Open the sudoers file:
 
 	sudo visudo
 
-Add this line:
+Add this line if not present:
 
-	username	ALL=(ALL) ALL
+	%sudo	ALL=(ALL) ALL
 
 (a nice place to place it is just bellow this one)
 
@@ -320,6 +320,36 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 	- **Note**: Remember that in this guide we already added the user to the sudo group. If the user is still not in this group, add them now.
 
+## Configuring sudoers group:
+- Edit the file /etc/sudoers:
+
+		sudo visudo
+
+	Modify the file to have:
+
+		Defaults	env_reset
+		Defaults	mail_badpass
+		Defaults	badpass_message="Ups! Password is wrong. Let's try again."
+		Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+		Defaults	passwd_tries=3
+		Defaults	logfile="/var/log/sudo/sudo.log"
+		Defaults	log_input,log_output
+		Defaults	requiretty
+
+	|Command|Explanation|
+	|:---:|:---:|
+	|```env_reset```|Reset environment (to hide the right commands to the right people)|
+	|```mail_badpass```|Send a message if authentication fails.|
+	|```badpass_message="```MESSAGE```"```|Set the message to print if the authentication fails.|
+	|```secure_path="```PATHS```"```|Define the PATH variable value.|
+	|```passwd_tries=```N|Number of attempts to log in.|
+	|```logfile="```PATH```"```|Path where the log files are stored. If the path doesn't exist, create it.|
+	|``````||
+	|``````||
+	|``````||
+	|``````||
+	|``````||
+
 ## Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root (as the ```USER```42).
 - When following this guide, please check that the previous step has worked before going to the next.
@@ -332,3 +362,4 @@ This step will allow us to enforce some requirements on the passwords generated 
 	- USER
 	- N
 	- GROUP
+	- MESSAGE
