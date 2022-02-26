@@ -1,7 +1,9 @@
-# Born 2 be root
+# Born2beroot:
 
 - This guide was made for the project 42Cursus-Born2beroot.
 - This guide is designed for those who already created a debian-virtual machine.
+
+# Configuration:
 
 ## Sudo
 ### Install sudo:
@@ -288,15 +290,17 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 		sudo passwd root
 
-## Configure groups of user:
+## Configure groups of user:	
 ### Useful commands:
 |Command|Explanation|
 |:---:|:---:|
 |```cut -d: -f1 /etc/passwd```|See all users|
 |```sudo adduser``` USER|Creates a new user with the username USER|
+|```sudo usermod -l ```USER_NEW USER_OLD|Rename the user USER_OLD to USER_NEW.|
+|```sudo userdel USER```|Removes the given user. Use ```-r``` to also remove their /home directory.|
 |```getent group```|See all the groups.|
 |```groups```|See the groups in which the current user is in.|
-|```getent group``` GROUP|Verify if the current user is in the given group GROUP.|
+|```getent group``` GROUP|Verify the users in the given group GROUP.|
 |```sudo groupadd``` GROUP|Create the group GROUP.|
 |```sudo groupdel``` GROUP|Delete the group GROUP.|
 |```sudo usermod -aG``` GROUP USER|Add the user USER to the group GROUP|
@@ -344,13 +348,19 @@ This step will allow us to enforce some requirements on the passwords generated 
 	|```secure_path="```PATHS```"```|Define the PATH variable value.|
 	|```passwd_tries=```N|Number of attempts to log in.|
 	|```logfile="```PATH```"```|Path where the log files are stored. If the path doesn't exist, create it.|
-	|``````||
-	|``````||
-	|``````||
-	|``````||
-	|``````||
+	|```log_input,log_output```|Create those files to store logs.|
+	|```requiretty```|If some non-root code is exploited (a PHP script, for example), the requiretty option means that the exploit code won't be able to directly upgrade its privileges by running sudo.)|
 
-## Notes:
+- Execute this command to ensure the directory ```/var/log/sudo``` exists:
+
+		sudo mkdir -p /var/log/sudo
+
+# Defense:
+## Hostname:
+
+
+
+# Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root (as the ```USER```42).
 - When following this guide, please check that the previous step has worked before going to the next.
 - When editing a file, the command will use the editor **Vim**. Feel free to use the one you prefer.
