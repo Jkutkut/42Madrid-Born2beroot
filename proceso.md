@@ -14,7 +14,9 @@ Install the sudo command to execute super user commands without being root.
 	apt install sudo
 
 ### Add user to sudo group:
-To check if a user is in the sudo group:
+This step is done now to enable sudo control over SSH in the near future.
+
+To add a user to the sudo group:
 
 	su -
 
@@ -255,8 +257,40 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 		sudo reboot
 
+## Configure groups of user:
+### Useful commands:
+|Command|Explanation|
+|:---:|:---:|
+|```cut -d: -f1 /etc/passwd```|See all users|
+|```sudo adduser``` USER|Creates a new user with the username USER|
+|```getent group```|See all the groups.|
+|```groups```|See the groups in which the current user is in.|
+|```getent group``` GROUP|Verify if the current user is in the given group GROUP.|
+|```sudo groupadd``` GROUP|Create the group GROUP.|
+|```sudo groupdel``` GROUP|Delete the group GROUP.|
+|```sudo usermod -aG``` GROUP USER|Add the user USER to the group GROUP|
+
+### Configuration:
+- Create the group ```user42```
+
+		sudo groupadd user42
+
+	- Check if created by looking at all:
+
+			getent group
+
+- Add the user to the required groups:
+
+		sudo usermod -aG user42 USER
+
+	- Check the user is in the groups ```sudo``` and ```user42``` with:
+
+			getent group
+
+	- **Note**: Remember that in this guide we already added the user to the sudo group. If the user is still not in this group, add them now.
+
 ## Notes:
-- When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root.
+- When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root (as the ```USER```42).
 - When following this guide, please check that the previous step has worked before going to the next.
 - When editing a file, the command will use the editor **Vim**. Feel free to use the one you prefer.
 - If the following words are present in a command, they would be different depending on the state of the machine:
@@ -266,3 +300,4 @@ This step will allow us to enforce some requirements on the passwords generated 
 	- PORT
 	- USER
 	- N
+	- GROUP
