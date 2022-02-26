@@ -27,22 +27,31 @@ usedram=$(
 	awk '{print $3}' # Print the second element (1 based).
 ) # The current used RAM on your server.
 
-rampercentage=$(awk '{printf("%.2f"), $1/$2}' <<<""$(($usedram * 100))" $totalram") # Division with 2 decimals
+rampercentage=$(printf "%.2f" $(( $usedram * 100 / $totalram ))) # Division with 2 decimals
 
 diskusage=$(
 	df -hm --total | # Space used in a human readable way (-h), in MB and showing the total sum
 	grep total | # Only taking the total line
-	awk '{print $3}' # Only take the number
+	awk '{print $3}' # Only take the disk usage number
 )
 
 totaldisk=$(
-	df -hm --total |
-	grep total |
-	awk '{print $2}'
+	df -hm --total | # Show space used in a human readable way (-h), in MB and showing the total sum
+	grep total | # Only taking the total line
+	awk '{print $2}' # Only take the total disk space number
 )
 
-diskpercentage=$(df -h --total | grep total | awk '{print $5}')
-cpuload=$(top -bn1 | grep %Cpu\(s\): | awk '{printf("%.1f", $2+$4)}')
+diskpercentage=$(
+	df -h --total | # Show space used in a human readable way (-h) and showing the total sum
+	grep total | # Only taking the total line
+	awk '{print $5}' # Only take the disk usage percentage
+)
+
+cpuload=$(
+	top -bn1 | # Show top stat in batch mode (-b, useful to mix with other commands) only one time (-n1)
+	grep %Cpu\(s\): | # Get the line starting with %Cpu(s):
+	awk '{printf("%.2f", $2+$4)}' # Add the numbers (two decimal)
+)
 lastboot=$(who -b | tr -d ' ' | sed s'/systemboot//')
 lvm=$(if [ $(lsblk | grep lvm | wc -l) -gt 0 ]; then echo YES; else echo NO; fi)
 tcp=$(ss -s | grep TCP: | awk '{print $4}' | tr -d ',')
