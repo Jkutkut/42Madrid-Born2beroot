@@ -15,21 +15,32 @@ vcpu=$(
 	wc -l # Count lines
 )
 
-totalmem=$(
+totalram=$(
 	free -m | # Show RAM memory stats (-m to use MB as unit).
 	grep Mem | # Only keep memory (remove swap).
 	awk '{print $2}' # Print the second element (1 based).
-) # The current available RAM on your server.
+) # The current total RAM on your server.
 
-usedmem=$(
+usedram=$(
 	free -m | # Show RAM memory stats (-m to use MB as unit).
 	grep Mem | # Only keep memory (remove swap).
-	awk '{print $2}' # Print the second element (1 based).
-) # # The current used RAM on your server.
+	awk '{print $3}' # Print the second element (1 based).
+) # The current used RAM on your server.
 
-percentage=$(awk '{printf("%.2f"), $1/$2}' <<<""$(($usedmem*100))" $totalmem")
-diskusage=$(df -hm --total | grep total | awk '{print $3}')
-totaldisk=$(df -h --total | grep total | awk '{print $2}')
+rampercentage=$(awk '{printf("%.2f"), $1/$2}' <<<""$(($usedram * 100))" $totalram") # Division with 2 decimals
+
+diskusage=$(
+	df -hm --total | # Space used in a human readable way (-h), in MB and showing the total sum
+	grep total | # Only taking the total line
+	awk '{print $3}' # Only take the number
+)
+
+totaldisk=$(
+	df -hm --total |
+	grep total |
+	awk '{print $2}'
+)
+
 diskpercentage=$(df -h --total | grep total | awk '{print $5}')
 cpuload=$(top -bn1 | grep %Cpu\(s\): | awk '{printf("%.1f", $2+$4)}')
 lastboot=$(who -b | tr -d ' ' | sed s'/systemboot//')
@@ -43,7 +54,7 @@ numbersudo=$(grep -a sudo /var/log/auth.log | grep TSID | wc -l)
 echo "# Arquitecture: $arq"
 echo "# CPU physical: $cpu"
 echo "# vCPU: $vcpu"
-echo "# Memory Usage: $usedmem/${totalmem}MB ($percentage%)"
+echo "# Memory Usage: $usedram/${totalram}MB ($rampercentage%)"
 echo "# Disk Usage: $diskusage/$totaldisk ($diskpercentage)"
 echo "# CPU load: $cpuload%"
 echo "Last boot: $lastboot"
