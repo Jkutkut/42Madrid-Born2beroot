@@ -243,7 +243,7 @@ This step will allow us to enforce some requirements on the passwords generated 
 	|:---:|:---:|
 	|```PASS_MAX_DAYS``` N|Maximum life of a single password.|
 	|```PASS_MIN_DAYS``` N|Minimum life of a single password (0 to disable).|
-	|```PASS_WARN_AGE``` N|Recieve a notification N days before remembering to change it.|
+	|```PASS_WARN_AGE``` N|Get notified N days before remembering to change it.|
 
 	- In my case, it ended up with:
 
