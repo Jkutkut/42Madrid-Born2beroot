@@ -3,8 +3,8 @@
 - This guide was made for the project 42Cursus-Born2beroot.
 - This guide is designed for those who already created a debian-virtual machine.
 
-## Install sudo:
-
+## Sudo
+### Install sudo:
 Install the sudo command to execute super user commands without being root.
 
 	su -
@@ -13,7 +13,7 @@ Install the sudo command to execute super user commands without being root.
 
 	apt install sudo
 
-## Add user to sudo group:
+### Add user to sudo group:
 To check if a user is in the sudo group:
 
 	su -
@@ -27,7 +27,7 @@ If done correctly, using this command we should see the user:
 
 	getent group sudo
 
-## Give user su privileges
+### Give user su privileges
 
 Open the sudoers file:
 
