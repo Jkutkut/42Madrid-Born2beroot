@@ -184,49 +184,26 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 		sudo apt-get install libpam-pwquality
 
-- Change expiration rules:
-	- Open the file:
-
-			sudo nano /etc/login.defs
-
-	- Modify the following rules:
-
-			PASS_MAX_DAYS 9999
-			PASS_MIN_DAYS 0
-			PASS_WARN_AGE 7
-
-	|Command|Explanation|
-	|:---:|:---:|
-	|```PASS_MAX_DAYS``` N|Maximum life of a single password.|
-	|```PASS_MIN_DAYS``` N|Minimum life of a single password (0 to disable).|
-	|```PASS_WARN_AGE``` N|Recieve a notification N days before remembering to change it.|
-
-	- In my case, it ended up with:
-
-			PASS_MAX_DAYS 30
-			PASS_MIN_DAYS 2
-			PASS_WARN_AGE 7
-
 - Change the password quality rules:
 	- Open the file:
 
-			sudo nano /etc/pam.d/common-password
+			sudo vi /etc/pam.d/common-password
 
 	- Find the line:
 
-			password [success=2 default=ignore] pam_unix.so obscure sha512
+			password [success=1 default=ignore] pam_unix.so obscure sha512
 
 		- Add the following:
 
-				password [success=2 default=ignore] pam_unix.so obscure use_authtok try_first_pass sha512 minlen=10
+				password [success=1 default=ignore] pam_unix.so obscure use_authtok try_first_pass sha512 minlen=10
 
 	|Element|Explanation|
 	|:---:|:---:|
 	|```obscure```|Do some tests on the password: Palindrome, case sensitive...|
-	|```use_authtok```||
-	|```try_first_pass```||
+	|```use_authtok```|When password changing enforce the module to set the new password to the one provided by a previously stacked password module.|
+	|```try_first_pass```|Before prompting the user for their password, the module first tries the previous stacked module's password in case that satisfies this module as well.|
 	|```sha512```|Use this type of encryption|
-	|```minlen=```N||
+	|```minlen=```N|Set the minimum amount of character to N|
 
 	<br>
 
@@ -248,7 +225,33 @@ This step will allow us to enforce some requirements on the passwords generated 
 	|```difok=```N|Minimum number of chararters that must be different from the previous password.|
 	|```enforce_for_root```|This rules also apply for root users.|
 
-- And that's it! Just reboot the machine to affect the changes.
+	- You should end up with something like this:
+		![result](./res/etc_pam.d_common-password_result.png)
+
+- Change expiration rules:
+	- Open the file:
+
+			sudo vi /etc/login.defs
+
+	- Modify the following rules:
+
+			PASS_MAX_DAYS 9999
+			PASS_MIN_DAYS 0
+			PASS_WARN_AGE 7
+
+	|Command|Explanation|
+	|:---:|:---:|
+	|```PASS_MAX_DAYS``` N|Maximum life of a single password.|
+	|```PASS_MIN_DAYS``` N|Minimum life of a single password (0 to disable).|
+	|```PASS_WARN_AGE``` N|Recieve a notification N days before remembering to change it.|
+
+	- In my case, it ended up with:
+
+			PASS_MAX_DAYS 30
+			PASS_MIN_DAYS 2
+			PASS_WARN_AGE 7
+
+- And that's it! Just reboot the machine to apply the changes.
 
 		sudo reboot
 
