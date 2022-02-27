@@ -51,6 +51,55 @@ Si hecho de manera correcta, deberíamos ver que el usuario pertenece al grupo c
 		sudo apt update
 
 ## Instalación de herramientas:
+Necesitamos instalar algunas herramientas que son esenciales:
+
+### Actualizando los paquetes/sistema actual:
+
+	sudo apt update && sudo apt upgrade -y
+
+### Instalar las herramientas:
+- git:
+
+		sudo apt install git -y
+
+- wget o curl:
+	- Ambas herramientas nos permiten descargar archivos de internet a través de su URL.
+	- No son 100% necesarias para el proyecto pero son útiles.
+	- En mi caso, he usado wget usando:
+
+		sudo apt install wget -y
+
+- Herramientas de personalización:
+	- Este paso es opcional.
+	- En mi caso, para trabajar de una manera más cómoda y rápida:
+		- He instalado:
+			- man:
+
+					sudo apt install man -y
+			- vim:
+
+					sudo apt install vim -y
+			- zsh:
+
+					sudo apt install zsh -y
+
+			- [Oh my zsh](https://ohmyz.sh/)
+		- He editado tanto **~/.zshrc** y **~/.vimrc** con la configuración básica que necesito para trabajar de una manera rápida e inteligente.
+		- Ten en cuenta que estas herramientas son ligeras y fáciles de quitar si fuera necesario, con lo que puedes quitarlo en cualquier momento.
+	- Recuerda que instalar una interfaz gráfica está prohibido.
+
+
+## Configurando el servicio SSH:
+
+
+
+
+
+
+
+
+
+
 
 
 
