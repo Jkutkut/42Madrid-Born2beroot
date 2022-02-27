@@ -334,8 +334,6 @@ In our case, we want to define two groups: sudo and user42. The first one was th
 
 	- **Note**: Remember that in this guide we already added the user to the sudo group. If the user is still not in this group, add them now.
 
-<!-- ! TODO -->
-
 ## Configuring sudoers group:
 - Edit the file ```/etc/sudoers```:
 
@@ -389,7 +387,6 @@ This steps will allow us to "run commands in a specific time and date".
 			-rw-r--r-- 1 root root 3582 Feb 27 05:53 /usr/local/bin/monitoring.sh
 
 - Modify the ```sudoers``` file to allow the script to be executed as super user without password.
-
 	- Open the file:
 
 			sudo visudo
@@ -400,11 +397,9 @@ This steps will allow us to "run commands in a specific time and date".
 - Reboot:
 
 		sudo reboot
-
 - Verify it works:
 
 		sudo bash /usr/local/bin/monitoring.sh
-
 - Open crontab
 
 		sudo crontab -u root -e
@@ -415,11 +410,8 @@ This steps will allow us to "run commands in a specific time and date".
 
 			*/10 * * * * bash /usr/local/bin/monitoring.sh
 
-			# Run every 30s
-			#*/1 * * * * bash /usr/local/bin/monitoring.sh
-			#*/1 * * * * sleep 30 && bash /usr/local/bin/monitoring.sh
-
  
+<br><br>
 
 # Defense:
 
@@ -467,12 +459,10 @@ The log files are located on the ```/var/log/sudo``` directory.
 - Run:
 
 		sudo crontab -u root -e
-
-- Ensure this lines are not commented:
+- Add this lines:
 
 		*/1 * * * * /path/to/monitoring.sh
 		*/1 * * * * sleep 30s && /path/to/monitoring.sh
-
 - Comment this line:
 
 		*/10 * * * * /path/to/monitoring.sh
@@ -480,16 +470,15 @@ The log files are located on the ```/var/log/sudo``` directory.
 	into
 
 		#*/1 * * * * /path/to/monitoring.sh
+- How it works? It runs 2 times the same script every minute. However, the second one is delayed 30s to make the whole process to be executed every 30s.
 
 ## Create a new user:
 - Create user USER
 
 		sudo adduser USER
-
 - Verify password expire info for new user
 
 		sudo chage -l USER
-
 - Add user to sudo and user42 groups:
 
 		sudo adduser USER sudo
