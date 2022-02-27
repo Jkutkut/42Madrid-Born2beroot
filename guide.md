@@ -30,24 +30,24 @@ If done correctly, using this command we should see USER:
 
 ### Give user su privileges
 
-Open the sudoers file:
+- Open the sudoers file:
 
-	su -
-	sudo visudo
+		su -
+		visudo
 
-Add this line if not present:
+- Add this line if not present:
 
-	%sudo	ALL=(ALL) ALL
+		%sudo	ALL=(ALL) ALL
 
-(a nice place to place it is just bellow this one)
+	(a nice place to place it is just bellow this one)
 
-	root	ALL=(ALL) ALL
+		root	ALL=(ALL) ALL
 
-Save and exit the file. If done correctly, you can log back to your login account to check if it works.
+- Save and exit the file. If done correctly, you can log back to your login account to check if it works.
 
-For example, now you should be able to execute this command without being root:
+- For example, now you should be able to execute this command without being root:
 
-	sudo apt update
+		sudo apt update
 
 
 ## Installing tools:
