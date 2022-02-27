@@ -366,6 +366,49 @@ This steps will allow us to "run commands in a specific time and date".
 
 - Place the script you want to execute periodically ([monitoring.sh](./monitoring.sh)) on the directory ```/usr/local/bin/```.
 
+		sudo vi /usr/local/bin/monitoring.sh
+
+	- Check if added correctly:
+
+			sudo ls -l /usr/local/bin/monitoring.sh
+
+		You should get:
+
+			-rw-r--r-- 1 root root 3582 Feb 27 05:53 /usr/local/bin/monitoring.sh
+
+- Modify the ```sudoers``` file to allow the script to be executed as super user without password.
+
+	- Open the file:
+
+			sudo visudo
+
+	- Add the following line (a good place is under the ```%sudo ALL=(ALL:ALL) ALL``` line):
+
+			%sudo ALL=(ALL) NOPASSWD: /usr/local/bin/monitoring.sh
+- Reboot:
+
+		sudo reboot
+
+- Verify it works:
+
+		sudo bash /usr/local/bin/monitoring.sh
+
+- Open crontab
+
+		sudo crontab -u root -e
+
+	- It will ask you which editor to use. Select the one you prefer.
+
+	- Add the following lines at the end of the file:
+
+			*/10 * * * * bash /usr/local/bin/monitoring.sh
+
+			# Run every 30s
+			#*/1 * * * * bash /usr/local/bin/monitoring.sh
+			#*/1 * * * * sleep 30 && bash /usr/local/bin/monitoring.sh
+
+ 
+
 # Defense:
 ## Hostname:
 |Command|Explanation|
@@ -373,6 +416,58 @@ This steps will allow us to "run commands in a specific time and date".
 |```hostnamectl```|Check current hostname (among other things).|
 |```sudo hostnamectl set-hostname``` HOSTNAME|Change the hostname. Also remember to update the HOSTNAME on the file ```/etc/hosts```. Needs **reboot**.|
 
+## Theory questions:
+- [Baigalaa's blog](https://baigal.medium.com/born2beroot-e6e26dfb50ac#2cb8)
+
+## What to check:
+|Command|Explanation|
+|:---:|:---|
+|```lsblk```|Check partitions|
+|```sudo aa-status```|AppArmor status|
+|```getent group ```sudo|sudo group users|
+|```getent group ```user42|user42 group users|
+|```sudo service ssh status```|ssh status, yep|
+|```sudo ufw status```|ufw status|
+|```ssh``` USER@IP -p 4242```|connect to VM from your host (physical) machine via SSH|
+|```sudo vi /etc/sudoers.d/```FILE|yes, sudo config file. You can ```ls /etc/sudoers.d``` first|
+|```vi /etc/login.defs```|password expire policy|
+|```vi /etc/pam.d/common-password```|password policy|
+|```sudo crontab -l```|cron schedule|
+
+## Log files:
+The log files are located on the ```/var/log/sudo``` directory.
+
+## Run monitoring every 30s:
+- Run:
+
+		sudo crontab -u root -e
+
+- Ensure this lines are not commented:
+
+		*/1 * * * * /path/to/monitoring.sh
+		*/1 * * * * sleep 30s && /path/to/monitoring.sh
+
+- Comment this line:
+
+		*/10 * * * * /path/to/monitoring.sh
+
+	into
+
+		#*/1 * * * * /path/to/monitoring.sh
+
+## Create a new user:
+- Create user USER
+
+		sudo adduser USER
+
+- Verify password expire info for new user
+
+		sudo chage -l USER
+
+- Add user to sudo and user42 groups:
+
+		sudo adduser USER sudo
+		sudo adduser USER user42
 
 # Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root (as the ```USER```42).
@@ -387,3 +482,4 @@ This steps will allow us to "run commands in a specific time and date".
 	- N
 	- GROUP
 	- MESSAGE
+	- FILE
