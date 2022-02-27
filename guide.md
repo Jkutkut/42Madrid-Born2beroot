@@ -410,6 +410,20 @@ This steps will allow us to "run commands in a specific time and date".
  
 
 # Defense:
+
+## Get LVM's signature:
+- Go to the location where you installed your virtual machine.
+- Find the file ```*.vdi```:
+
+		find . -name "*.vdi"
+- Go to the directory where the file was found.
+- Run this command:
+
+	|OS|Command|
+	|---:|:---|
+	|Linux|```sha1sum *.vdi```|
+	|MacOS|```shasum *.vdi```|
+
 ## Hostname:
 |Command|Explanation|
 |---:|:---|
