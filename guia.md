@@ -28,10 +28,29 @@ Si hecho de manera correcta, deberíamos ver que el usuario pertenece al grupo c
 
 	getent group sudo
 
+### Dar al usuario privilegios de superusuario:
 
+- Abre el archivo ```/etc/sudoers``` y agrega la siguiente línea:
 
+		su -
+		visudo
 
+- Añade esta línea si no está ya:
 
+		%sudo	ALL=(ALL) ALL
+	
+	(un buen sitio es justo debajo de esta:)
+
+		root	ALL=(ALL) ALL
+
+- Guarda y sal del archivo. Si está hecho de manera correcta, puedes logearte de nuevo con tu cuenta para verificar si ha funcionado.
+
+- Por ejemplo, ahora deberías ser capaz de ejecutar este comando sin ser root:
+
+		apt update # Este no funcionará
+		sudo apt update
+
+## Instalación de herramientas:
 
 
 
