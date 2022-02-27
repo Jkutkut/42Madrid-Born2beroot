@@ -141,16 +141,16 @@ This step will allow us to connect to the virtual machine from a terminal of the
 
 ## Setup firewall:
 ### Install UFW (Uncomplicated firewall):
-		sudo apt install ufw
+		sudo apt update && sudo apt install ufw
 
 ### UFW Useful commands:
 |Name|Command|Description|
 |---:|:---:|:---|
 |Enable UFW|``sudo ufw enable``|Enables UFW and enables it on system startup.|
-|Check UFW status|``sudo ufw status numbered``|Show the current status and rules of UFW. The param *numbered* shows the index of each one to show |
-|Allow ssh|``sudo ufw allow ssh``|Allows to use ssh|
-|Open port|``sudo ufw allow PORT``|Opens the given port (ei: 4242)|
-|Remove port|``sudo ufw delete PORT_ID``|Removes a the given port (the number when executing ``sudo ufw status numbered``)|
+|Check UFW status|``sudo ufw status numbered``|Show the current status and rules of UFW. The param *numbered* shows the index of each one (PORT_ID)|
+|Allow SSH|``sudo ufw allow ssh``|Allows to use ssh|
+|Open port|``sudo ufw allow`` PORT|Opens the given port (ei: 4242)|
+|Remove port|``sudo ufw delete PORT_ID``|Removes a the given port (the index when executing ``sudo ufw status numbered``)|
 
 ### Setup UFW:
 - [Enable UFW](#UFW-Useful-commands)

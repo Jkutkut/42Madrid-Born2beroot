@@ -140,6 +140,42 @@ Este paso nos permitirá conectarnos a la máquina virtual a través de un termi
 			DATE MACHINE_NAME sshd[ID]: Server listening on :: port 4242.
 
 ## Configuración del firewall:
+### Instalación del firewall:
+		sudo apt update && sudo apt install ufw -y
+
+### Comandos útiles de UFW:
+|Nombre|Comando|Descripción|
+|---:|:---:|:---|
+|Activar UFW|``sudo ufw enable``|Activa UFW y lo configura para que se active cada vez que se inicie el servidor.|
+|Ver estado UFW|``sudo ufw status numbered``|Muestra el estado actual y las reglas de UFW. El parámetro *numbered* nos muestra el índice de cada una (PORT_ID)|
+|Permite SSH|``sudo ufw allow ssh``|Permite el uso de SSH|
+|Abre puerto|``sudo ufw allow`` PORT|Abre el puerto dado (ej: 4242)|
+|Quita puerto|``sudo ufw delete`` PORT_ID|Quita el puerto seleccionado (usando el índice que nos da el comando ``sudo ufw status numbered``)|
+
+### Configuración UFW:
+- [Activar UFW](#comandos-útiles-de-ufw)
+- [Ver estado UFW](#comandos-útiles-de-ufw)
+- [Permite SSH](#comandos-útiles-de-ufw)
+
+		sudo ufw allow ssh
+- Configura las reglas de los puertos:
+	- Abre el puerto 4242:
+
+		sudo ufw allow 4242
+
+	- Elimina todos los otros puertos. Si hecho correctamente, debería quedar:
+	![ufw_result](./res/ufw_result.png)
+
+## Permitir la conexión SSH usando Virtualbox:
+
+
+
+
+
+
+
+
+
 
 
 
