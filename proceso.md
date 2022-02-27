@@ -102,7 +102,7 @@ We need to install some essential tools:
 ### SSH Useful commands:
 
 |Name|Command|Description|
-|:---:|:---:|:---:|
+|---:|:---:|:---|
 |Check status ssh|``sudo systemctl status ssh``|Shows the current status of SSH server service.|
 |Restart SSH service|``sudo service ssh restart``|Restart the SSH service.|
 |Check port settings|``sudo grep Port /etc/ssh/sshd_config``|Allows to see the current configuration of the port settings (NOT THE SERVICE).|
@@ -143,7 +143,7 @@ We need to install some essential tools:
 
 ### UFW Useful commands:
 |Name|Command|Description|
-|:---:|:---:|:---:|
+|---:|:---:|:---|
 |Enable UFW|``sudo ufw enable``|Enables UFW and enables it on system startup.|
 |Check UFW status|``sudo ufw status numbered``|Show the current status and rules of UFW. The param *numbered* shows the index of each one to show |
 |Allow ssh|``sudo ufw allow ssh``|Allows to use ssh|
@@ -202,7 +202,7 @@ This step will allow us to enforce some requirements on the passwords generated 
 				password [success=1 default=ignore] pam_unix.so obscure use_authtok try_first_pass sha512 minlen=10
 
 	|Element|Explanation|
-	|:---:|:---:|
+	|---:|:---|
 	|```obscure```|Do some tests on the password: Palindrome, case sensitive...|
 	|```use_authtok```|When password changing enforce the module to set the new password to the one provided by a previously stacked password module.|
 	|```try_first_pass```|Before prompting the user for their password, the module first tries the previous stacked module's password in case that satisfies this module as well.|
@@ -220,7 +220,7 @@ This step will allow us to enforce some requirements on the passwords generated 
 				password requisite pam_pwquality.so retry=3 lcredit =-1 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=0 difok=7 enforce_for_root
 
 	|Element|Explanation|
-	|:--:|:--:|
+	|--:|:--|
 	|```lcredit=```N|Minimum number of *lower-case* characters.|
 	|```ucredit=```N|Minimum number of *upper-case* characters.|
 	|```dcredit=```N|Minimum number of *digit* characters.|
@@ -244,7 +244,7 @@ This step will allow us to enforce some requirements on the passwords generated 
 			PASS_WARN_AGE 7
 
 	|Command|Explanation|
-	|:---:|:---:|
+	|---:|:---|
 	|```PASS_MAX_DAYS``` N|Maximum life of a single password.|
 	|```PASS_MIN_DAYS``` N|Minimum life of a single password (0 to disable).|
 	|```PASS_WARN_AGE``` N|Get notified N days before remembering to change it.|
@@ -293,7 +293,7 @@ This step will allow us to enforce some requirements on the passwords generated 
 ## Configure groups of user:	
 ### Useful commands:
 |Command|Explanation|
-|:---:|:---:|
+|---:|:---|
 |```cut -d: -f1 /etc/passwd```|See all users|
 |```sudo adduser``` USER|Creates a new user with the username USER|
 |```sudo usermod -l ```USER_NEW USER_OLD|Rename the user USER_OLD to USER_NEW.|
@@ -341,7 +341,7 @@ This step will allow us to enforce some requirements on the passwords generated 
 		Defaults	requiretty
 
 	|Command|Explanation|
-	|:---:|:---:|
+	|---:|:---|
 	|```env_reset```|Reset environment (to hide the right commands to the right people)|
 	|```mail_badpass```|Send a message if authentication fails.|
 	|```badpass_message="```MESSAGE```"```|Set the message to print if the authentication fails.|
@@ -412,7 +412,7 @@ This steps will allow us to "run commands in a specific time and date".
 # Defense:
 ## Hostname:
 |Command|Explanation|
-|:---:|:---:|
+|---:|:---|
 |```hostnamectl```|Check current hostname (among other things).|
 |```sudo hostnamectl set-hostname``` HOSTNAME|Change the hostname. Also remember to update the HOSTNAME on the file ```/etc/hosts```. Needs **reboot**.|
 
@@ -421,7 +421,7 @@ This steps will allow us to "run commands in a specific time and date".
 
 ## What to check:
 |Command|Explanation|
-|:---:|:---|
+|---:|:---|
 |```lsblk```|Check partitions|
 |```sudo aa-status```|AppArmor status|
 |```getent group ```sudo|sudo group users|
