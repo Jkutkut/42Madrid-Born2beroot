@@ -90,11 +90,56 @@ Necesitamos instalar algunas herramientas que son esenciales:
 
 
 ## Configurando el servicio SSH:
+Este paso nos permitirá conectarnos a la máquina virtual a través de un terminal de nuestro ordenador. Esto es muy bueno para poder copiar y pegar contenido entre ambas máquinas.
 
+### Instalación de SSH:
+		sudo apt update && sudo apt install openssh-server -y
 
+### Comandos útiles de SSH:
 
+|Nombre|Comando|Descripción|
+|---:|:---:|:---|
+|Ver estado ssh|``sudo systemctl status ssh``|Muestra el estado actual del servicio SSH.|
+|Reiniciar servicio SSH|``sudo service ssh restart``|Reinicia el servicio SSH.|
+|Check port settings|``sudo grep Port /etc/ssh/sshd_config``|Nos permite ver los puertos configurados en la configuración (NO DEL SERVICIO).|
 
+### Configuración:
+- [Ver estado ssh](#comandos-útiles-de-ssh)
+- [Reinicia el servicio SSH](#comandos-útiles-de-ssh)
+- Cambia el puerto por defecto (22) al 4242:
+	- Abre con sudo el archivo de configuración:
 
+		sudo vim /etc/ssh/sshd_config
+	- Encuentra la línea:
+
+			#Port 22
+	- Cambia el valor por:
+
+			Port 4242
+
+	- Guarda y sal del archivo (verifica que se ha editado correctamente).
+
+- Reinicia el servicio:
+	- Si usas [Ver estado ssh](#comandos-útiles-de-ssh) otra vez, verás que nada ha cambiado. Esto es porque los cambios no tendrán efecto hasta que el servicio se reinicie. Por tanto, [Reinicia el servicio SSH](#comandos-útiles-de-ssh).
+	- Si todo ha ido bien, es posible ver en el resultado de [Ver estado ssh](#comandos-útiles-de-ssh) que el servidor está ahora escuchando por el puerto 4242.
+	- También puedes ver que el ID ha cambiado de manera esperada.
+	- Ejemplo:
+
+			sudo systemctl status ssh | grep port
+		<br>
+
+			DATE MACHINE_NAME sshd[ID]: Server listening on 0.0.0.0 port 22.
+			DATE MACHINE_NAME sshd[ID]: Server listening on :: port 22.
+		<br>
+
+			sudo service ssh restart
+			sudo systemctl status ssh | grep port
+		<br>
+
+			DATE MACHINE_NAME sshd[ID]: Server listening on 0.0.0.0 port 4242.
+			DATE MACHINE_NAME sshd[ID]: Server listening on :: port 4242.
+
+## Configuración del firewall:
 
 
 

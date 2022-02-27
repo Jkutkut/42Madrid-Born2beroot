@@ -119,7 +119,7 @@ This step will allow us to connect to the virtual machine from a terminal of the
 
 	- Save and exit (verify the file has been edited correctly).
 
-- Restart server:
+- Restart service:
 	- If you use [Check server status](#SSH-Useful-commands) again, you will see that nothing has changed. That is because the change will not take effect until the service is restarted. Therefore, use [Restart SSH service](#SSH-Useful-commands).
 	- If done correctly, it is possible to see in the log of [Check server status](#SSH-Useful-commands) that the server is now listening on 4242 port.
 	- Also you can see that the ID has changed as expected.
