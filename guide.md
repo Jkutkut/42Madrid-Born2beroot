@@ -3,31 +3,28 @@
 - This guide was made for the project 42Cursus-Born2beroot.
 - This guide is designed for those who already created a debian-virtual machine.
 
+Please read the [Notes](#notes) before you start.
+
 # Configuration:
 
 ## Sudo
-### Install sudo:
-Install the sudo command to execute super user commands without being root.
+Use sudo to execute superuser commands without being root. This is generally safer than using the root user.
 
-	su -
+- Install sudo:
 
-<br>
+		su -
+		apt install sudo
 
-	apt install sudo
+- Add user to sudo group:
 
-### Add user to sudo group:
-This step is done now to enable sudo control over SSH in the near future.
+	This step will make our user belong to the sudo group.
 
-To add a user to the sudo group:
+	This step is done now to enable sudo control over SSH in the near future.
 
-	su -
+		su -
+		usermod -aG sudo USER
 
-<br>
-
-	usermod -aG sudo your_username
-
-
-If done correctly, using this command we should see the user:
+If done correctly, using this command we should see USER:
 
 	getent group sudo
 
@@ -36,9 +33,6 @@ If done correctly, using this command we should see the user:
 Open the sudoers file:
 
 	su -
-
-<br>
-
 	sudo visudo
 
 Add this line if not present:
@@ -96,6 +90,8 @@ We need to install some essential tools:
 
 
 ## Setting up SSH service:
+This step will allow us to connect to the virtual machine from a terminal of the physical machine. This is really good to copy-paste content between machines.
+
 ### Installing SSH:
 		sudo apt-get update && sudo apt-get install openssh-server -y
 
@@ -129,11 +125,17 @@ We need to install some essential tools:
 	- Also you can see that the ID has changed as expected.
 	- Example:
 
-			$ sudo systemctl status ssh | grep port
+			sudo systemctl status ssh | grep port
+		<br>
+
 			DATE MACHINE_NAME sshd[ID]: Server listening on 0.0.0.0 port 22.
 			DATE MACHINE_NAME sshd[ID]: Server listening on :: port 22.
-			$ sudo service ssh restart
-			$ sudo systemctl status ssh | grep port
+		<br>
+
+			sudo service ssh restart
+			sudo systemctl status ssh | grep port
+		<br>
+
 			DATE MACHINE_NAME sshd[ID]: Server listening on 0.0.0.0 port 4242.
 			DATE MACHINE_NAME sshd[ID]: Server listening on :: port 4242.
 
@@ -177,7 +179,10 @@ We need to install some essential tools:
 
 		sudo systemctl restart ssh
 
-- From now own, you can enter the machine from your host machine using:
+- That's it! Now we can connect to the virtual machine from the physical machine. From now own, we can use SSH to copy-paste content between machines.
+
+		ssh USER@localhost -p 4242
+	or
 
 		ssh USER@127.0.0.1 -p 4242
 
@@ -230,8 +235,9 @@ This step will allow us to enforce some requirements on the passwords generated 
 	|```enforce_for_root```|This rules also apply for root users.|
 
 	- You should end up with something like this:
+		<br><br>
 		![result](./res/etc_pam.d_common-password_result.png)
-
+<br><br>
 - Change expiration rules:
 	- Open the file:
 
@@ -269,7 +275,7 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 		sudo chage -l root
 
-	You will see that the configuration of USER's password expiration has not changed. To change it:
+	You will see that the configuration of USER's and root's password expiration has not changed. To change it:
 
 		sudo chage USER
 
@@ -278,19 +284,23 @@ This step will allow us to enforce some requirements on the passwords generated 
 		sudo chage root
 
 	- Example of execution:
-
-	![sudo chage USER](res/chage_user.png)
-	![chage -l USER](res/chage_l_user.png)
-	![sudo chage root](res/chage_root.png)
-	![sudo chage -l root](res/chage_l_root.png)
+		<br><br>
+		![sudo chage USER](res/chage_user.png)
+		![chage -l USER](res/chage_l_user.png)
+		![sudo chage root](res/chage_root.png)
+		![sudo chage -l root](res/chage_l_root.png)
+		<br><br>
 
 - Change passwords of both USER and root:
 
 		passwd USER
-
 		sudo passwd root
 
-## Configure groups of user:	
+## Configure groups of user:
+Sometimes, you may want to give some users special privileges. For example, you may want to give the user "admin" the ability to do some administrative tasks, or you may want to give the user "user" the ability to do some tasks that are not allowed to the "admin" user.
+
+In our case, we want to define two groups: sudo and user42. The first one was the one we already configured to allow the user to execute commands as root. The second one will define that USER is a user from 42.
+
 ### Useful commands:
 |Command|Explanation|
 |---:|:---|
@@ -324,8 +334,10 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 	- **Note**: Remember that in this guide we already added the user to the sudo group. If the user is still not in this group, add them now.
 
+<!-- ! TODO -->
+
 ## Configuring sudoers group:
-- Edit the file /etc/sudoers:
+- Edit the file ```/etc/sudoers```:
 
 		sudo visudo
 
