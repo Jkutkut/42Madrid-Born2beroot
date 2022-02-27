@@ -54,26 +54,57 @@ cpuload=$(
 ) # The current CPU load on your server.
 
 lastboot=$(
-	who -b | 
-	tr -d ' ' |
-	sed s'/systemboot//'
-)
-lvm=$(if [ $(lsblk | grep lvm | wc -l) -gt 0 ]; then echo YES; else echo NO; fi)
-tcp=$(ss -s | grep TCP: | awk '{print $4}' | tr -d ',')
-users=$(users | wc -w)
-ip=$(hostname -I)
-macaddress=$(ip a | grep link/ether | tr -d ' ' | sed s'/link\/ether//' | sed s'/brd.*//')
-numbersudo=$(grep -a sudo /var/log/auth.log | grep TSID | wc -l)
+	who -b | # Show time of last boot
+	sed 's/ *system boot//' # Only keep the date-time
+) # Get the datetime of the last boot
 
-echo "# Arquitecture: $arq"
-echo "# CPU physical: $cpu"
-echo "# vCPU: $vcpu"
-echo "# Memory Usage: $usedram/${totalram}MB ($rampercentage%)"
-echo "# Disk Usage: $diskusage/$totaldisk ($diskpercentage)"
-echo "# CPU load: $cpuload%"
-echo "Last boot: $lastboot"
-echo "# LVM use: $lvm"
-echo "# Connection TCP: $tcp"
-echo "# User log: $users"
-echo "# Network: IP $ip ($macaddress)"
-echo "# Sudo: $numbersudo cmd"
+
+if [ $(lsblk| grep lvm | wc -l) -gt 0 ]; then
+	# If they are any lines in the partitions command with 'lvm', lvm.
+	lvm="YES";
+else
+	lvm="NO"
+fi # Determine if LVM is active or not
+
+tcp=$(
+	ss -s | # Using -s to sum the data
+	grep TCP: | # Taking only the line starting with TCP:
+	awk '{print $4}' | # Get the 4º element (1 based)(one element end on a space).
+	tr -d ',' # Remove comma
+)
+
+users=$(
+	users | # Show the active connections
+	wc -w # Count words (connections)
+) # Count number of active connections
+
+ip=$(hostname -I) # Show the IP
+
+macaddress=$(
+	ip a | # Get the data
+	grep link/ether | # Get the line with 'link/ether'
+	tr -d ' ' | # Remove the spaces
+	sed s'/link\/ether//' | # Also remove link/ether
+	sed s'/brd.*//' # and brd and all the following text
+) # Get the IPv4 and MAC address
+
+numbersudo=$(
+	grep -a sudo /var/log/auth.log | # Open the sudo log file
+	grep TSID | # Get the lines with TSID
+	wc -l # Count the lines
+) # Number of commands executed with sudo
+
+
+# Use wall instead of echo to show the message on all screens
+wall "# Arquitecture: $arq
+# CPU physical: $cpu
+# vCPU: $vcpu
+# Memory Usage: $usedram/${totalram}MB ($rampercentage%)
+# Disk Usage: $diskusage/$totaldisk ($diskpercentage)
+# CPU load: $cpuload%
+Last boot: $lastboot
+# LVM use: $lvm
+# Connection TCP: $tcp
+# User log: $users
+# Network: IP $ip ($macaddress)
+# Sudo: $numbersudo cmd"
