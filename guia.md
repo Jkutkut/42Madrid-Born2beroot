@@ -297,6 +297,46 @@ Este paso nos permite requerir ciertas condiciones a las contraseñas que se gen
 		sudo passwd root
 
 ## Configuración de grupos del usuario:
+En ocasiones, puede que nos interese dar algunos privilegios/permisos a ciertos usuarios. Por ejemplo, puede que queramos que los usuarios "administradores" tengan la habilidad de realizar tareas de mantenimiento, o puede que queramos que los usuarios "usuarios" puede que puedan hacer/tener cosas que los "administradores" no puedan.
+
+En nuestro caso, nos piden definir dos grupos: sudo y user42. El primero es el que ya hemos configurado para permitir a los usuarios que pertenezcan a este grupo ejecutar comandos como root. El segundo nos permitirá definir que USER es un usuario de 42.
+
+### Comandos útiles:
+|Elemento|Descripción|
+|---:|:---|
+|```cut -d: -f1 /etc/passwd```|Ver todos los usuarios|
+|```sudo adduser``` USER|Crea un nuevo usuario con el nombre USER|
+|```sudo usermod -l ```USER_NEW USER_OLD|Renombra el usuario USER_OLD a USER_NEW.|
+|```sudo userdel``` USER|Elimina el usuario dado. Usa ```-r``` para eliminar también su directorio en /home.|
+|```getent group```|Ver todos los grupos.|
+|```groups```|Ver todos los usuarios en los que está el usuario que estamos usando (usa ```groups USER``` para hacer lo mismo con USER).|
+|```getent group``` GROUP|Verica qué usuarios están en el grupo GROUP.|
+|```sudo groupadd``` GROUP|Crea el grupo GROUP.|
+|```sudo groupdel``` GROUP|Borra el grupo GROUP.|
+|```sudo usermod -aG``` GROUP USER|Añade el usuario USER al grupo GROUP.|
+
+### Configuración:
+- Crea el grupo ```user42```
+
+		sudo groupadd user42
+
+	- Verifica que se ha creado con:
+
+			getent group
+	
+- Añade al usuario a los grupos requeridos:
+
+		sudo usermod -aG user42 USER
+	
+	- Verifica que el usuario está en los grupos ```sudo``` y ```user42``` con:
+
+			getent group
+	
+	- **Nota**: Recuerda que esta guía ya ha añadido el usuario al grupo sudo. Si no fuese así, añádele ahora.
+
+
+
+
 
 
 # Notes:

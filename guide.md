@@ -307,7 +307,7 @@ In our case, we want to define two groups: sudo and user42. The first one was th
 |```cut -d: -f1 /etc/passwd```|See all users|
 |```sudo adduser``` USER|Creates a new user with the username USER|
 |```sudo usermod -l ```USER_NEW USER_OLD|Rename the user USER_OLD to USER_NEW.|
-|```sudo userdel USER```|Removes the given user. Use ```-r``` to also remove their /home directory.|
+|```sudo userdel``` USER|Removes the given user. Use ```-r``` to also remove their /home directory.|
 |```getent group```|See all the groups.|
 |```groups```|See the groups in which the current user is in.|
 |```getent group``` GROUP|Verify the users in the given group GROUP.|
