@@ -10,7 +10,7 @@
 
 
 ## Versión en español:
-|File|Link|
+|Archivo|Link|
 |:---:|:---|
 |Enunciado|[link](./.info/es.subject.pdf)|
 |Guía|[link](./guia.md)|
