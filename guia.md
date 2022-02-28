@@ -366,6 +366,66 @@ En nuestro caso, nos piden definir dos grupos: sudo y user42. El primero es el q
 		sudo mkdir -p /var/log/sudo
 
 
+## Configuración de Crontab:
+Estos pasos nos permitirán ejecutar comandos en una fecha y/o hora determinada.
+
+- Instalación:
+
+		sudo apt update -y
+		sudo apt install net-tools -y
+
+- Introduce el script que quieras ejecutar de manera periódica ([monitoring.sh](./monitoring.es.sh)) en el directorio ```/usr/local/bin/```.
+
+		sudo vi /usr/local/bin/monitoring.sh
+
+	- Verifica que se ha añadido de manera correcta:
+
+			sudo ls -l /usr/local/bin/monitoring.sh
+
+		Debería aparecer:
+
+			-rw-r--r-- 1 root root 3582 Feb 27 05:53 /usr/local/bin/monitoring.sh
+
+- Modifica de nuevo ```sudoers``` para permitir que el archivo se ejecute como súper-usuario sin password.
+	- Abre el archivo:
+
+			sudo visudo
+
+	- Añade la siguiente línea (un buen sitio para hacerlo es debajo de ```%sudo ALL=(ALL:ALL) ALL```)
+
+			%sudo ALL=(ALL) NOPASSWD: /usr/local/bin/monitoring.sh
+- Reinicia:
+
+		sudo reboot
+- Verifica que funciona:
+
+		sudo bash /usr/local/bin/monitoring.sh
+- Abre crontab
+
+		sudo crontab -u root -e
+
+	- Este nos preguntará qué editor usar. Selecciona el que quieras.
+
+	- Añade la siguiente línea al final del archivo para ejecutarlo cada 10min:
+
+			*/10 * * * * bash /usr/local/bin/monitoring.sh
+
+
+<br><br>
+
+# Defensa:
+
+
+
+
+
+
+
+
+
+
+
+
 # Notes:
 - Cuando el comando *su -* es mostrado, la intención es que se ejecute siendo root. Por tanto, todas las secciones que no usen ese comando están pensadas para ser ejecutadas no siendo root (```USER```).
 - Antes the avanzar a la siguiente sección, verifica que lo hecho hasta ahora ha funcionado correctamente. El orden elegido con un motivo específico.
