@@ -484,7 +484,7 @@ Los archivos de registro/log se guardan en el directorio ```/var/log/sudo```.
 		sudo usermod -aG sudo USER
 		sudo usermod -aG user42 USER
 
-# Notes:
+# Notas:
 - Cuando el comando *su -* es mostrado, la intención es que se ejecute siendo root. Por tanto, todas las secciones que no usen ese comando están pensadas para ser ejecutadas no siendo root (```USER```).
 - Antes the avanzar a la siguiente sección, verifica que lo hecho hasta ahora ha funcionado correctamente. El orden elegido con un motivo específico.
 - Cuando sea necesario editar un archivo, el comando utilizado será **Vim**. Siéntete libre de usar el que prefieras.
