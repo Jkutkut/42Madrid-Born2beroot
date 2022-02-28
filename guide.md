@@ -431,7 +431,7 @@ This steps will allow us to "run commands in a specific time and date".
 ## Hostname:
 |Command|Explanation|
 |---:|:---|
-|```hostnamectl```|Check current hostname (among other things).|
+|```hostnamectl```|Check current hostname.|
 |```sudo hostnamectl set-hostname``` HOSTNAME|Change the hostname. Also remember to update the HOSTNAME on the file ```/etc/hosts```. Needs **reboot**.|
 
 ## Theory questions:
@@ -447,7 +447,7 @@ This steps will allow us to "run commands in a specific time and date".
 |```sudo service ssh status```|ssh status, yep|
 |```sudo ufw status```|ufw status|
 |```ssh``` USER@IP -p 4242```|connect to VM from your host (physical) machine via SSH|
-|```sudo vi /etc/sudoers.d/```FILE|yes, sudo config file. You can ```ls /etc/sudoers.d``` first|
+|```sudo visudo```|Open the sudoers file.|
 |```vi /etc/login.defs```|password expire policy|
 |```vi /etc/pam.d/common-password```|password policy|
 |```sudo crontab -l```|cron schedule|
@@ -461,15 +461,15 @@ The log files are located on the ```/var/log/sudo``` directory.
 		sudo crontab -u root -e
 - Add this lines:
 
-		*/1 * * * * /path/to/monitoring.sh
-		*/1 * * * * sleep 30s && /path/to/monitoring.sh
+		*/1 * * * * /usr/local/bin/monitoring.sh
+		*/1 * * * * sleep 30s && /usr/local/bin/monitoring.sh
 - Comment this line:
 
-		*/10 * * * * /path/to/monitoring.sh
+		*/10 * * * * /usr/local/bin/monitoring.sh
 
 	into
 
-		#*/1 * * * * /path/to/monitoring.sh
+		#*/10 * * * * /usr/local/bin/monitoring.sh
 - How it works? It runs 2 times the same script every minute. However, the second one is delayed 30s to make the whole process to be executed every 30s.
 
 ## Create a new user:

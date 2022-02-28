@@ -415,16 +415,74 @@ Estos pasos nos permitirán ejecutar comandos en una fecha y/o hora determinada.
 
 # Defensa:
 
+## Obtener la firma de LVM:
+- Dirígete a la localización donde esté instalada la máquina virtual.
+- Encuentra el archivo ```.dvi```:
+
+		find . -name "*.dvi"
+- Ve al directorio donde está el archivo.
+- Ejecuta este comando:
+
+	|Sistema operativo|Comando|
+	|---:|:---|
+	|Linux|```sha1sum *.vdi```|
+	|MacOS|```shasum *.vdi```|
+
+## Nombre de la máquina:
+|Comando|Descripción|
+|---:|:---|
+|```hostnamectl```|Ver nombre actual.|
+|```sudo hostnamectl set-hostname``` HOSTNAME|Cambia el nombre de la máquina. Recuerda cambiarlo también en el archivo ```/etc/hosts```. Necesita **reiniciar** para aplicarse.|
+
+## Preguntas de teoría:
+- [Baigalaa's blog](https://baigal.medium.com/born2beroot-e6e26dfb50ac#2cb8)
+
+## Qué verificar:
+|Comando|Descripción|
+|---:|:---|
+|```lsblk```|Ver particiones.|
+|```sudo aa-status```|Ver estado AppArmor.|
+|```getent group ```sudo|Ver usuarios en el grupo sudo.|
+|```getent group ```user42|Ver usuarios en el grupo user42.|
+|```sudo service ssh status```|Sí, ver estado de SSH.|
+|```sudo ufw status```|Estado de UFW.|
+|```ssh``` USER@IP -p 4242```|Conectar desde el ordenador a la máquina virtual por el puerto 4242.|
+|```sudo visudo```|Abrir el archivo de configuración de sudoers.|
+|```vi /etc/login.defs```|Política de contraseñas.|
+|```vi /etc/pam.d/common-password```|Política de contraseñas.|
+|```sudo crontab -l```|Ver horario de cron.|
+
+## Archivos de log:
+Los archivos de registro/log se guardan en el directorio ```/var/log/sudo```.
+
+## Ejecutar monitoring.sh cada 30s:
+- Ejecuta:
+
+		sudo crontab -u root -e
+
+- Modifica el archivo para que aparezca estas líneas:
+
+		*/1 * * * * /usr/local/bin/monitoring.sh
+		*/1 * * * * sleep 30s && /path/to/monitoring.sh
+
+	en vez de
+
+		*/10 * * * * /usr/local/bin/monitoring.sh
+
+- ¿Cómo funciona? Ejecuta dos veces cada minuto el script. Sin embargo, el segundo se retrasa 30s para que entre ambos se ejecuten cada 30s.
 
 
+## Crear un nuevo usuario:
+- Crea el nuevo usuario USER:
 
+		sudo adduser USER
+- Verifica que la información de la expiración de la contraseña de este:
 
+		sudo chage -l USER
+- Añade el usuario a los grupos sudo y user42:
 
-
-
-
-
-
+		sudo usermod -aG sudo USER
+		sudo usermod -aG user42 USER
 
 # Notes:
 - Cuando el comando *su -* es mostrado, la intención es que se ejecute siendo root. Por tanto, todas las secciones que no usen ese comando están pensadas para ser ejecutadas no siendo root (```USER```).
