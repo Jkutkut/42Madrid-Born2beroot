@@ -167,23 +167,136 @@ Este paso nos permitirá conectarnos a la máquina virtual a través de un termi
 	![ufw_result](./res/ufw_result.png)
 
 ## Permitir la conexión SSH usando Virtualbox:
+- Ve a Virtualbox -> Choose the VM -> Select Settings
+- Elige "Network" -> "Adapter 1" -> "Avanced" -> "Port forwarding"
+- Add a new one with the following rules:
+
+	|Name|Protocol|Host IP|Host Port|Guest IP|Guest Port|
+	|:---:|:---:|:---:|:---:|:---:|:---:|
+	|SSH|TCP||4242||4242|
+
+- Para que se apliquen los cambios, [Reinicia el servicio SSH](#comandos-útiles-de-ssh).
+
+		sudo systemctl restart ssh
+
+- Ya está! Ahora podemos conectarnos a la máquina virtual desde nuestro ordenador. Desde ahora, podemos usar SSH para copiar y pegar contenido entre ambas máquinas.
+
+		ssh USER@localhost -p 4242
+	o
+
+		ssh USER@127.0.0.1 -p 4242
 
 
+## Configurar política de contraseñas:
+Este paso nos permite requerir ciertas condiciones a las contraseñas que se generen a partir de ahora.
+- Instala la librería que verifica la integridad de las contraseñas:
 
+		sudo apt-get install libpam-pwquality
 
+- Cambia las reglas de la calidad de las contraseñas:
+	- Abre el archivo:
 
+			sudo vi /etc/pam.d/common-password
 
+	- Encuentra la línea:
 
+			password [success=1 default=ignore] pam_unix.so obscure sha512
 
+	- Añade lo siguiente:
 
+				password [success=1 default=ignore] pam_unix.so obscure use_authtok try_first_pass sha512 minlen=10
 
+	|Elemento|Descripción|
+	|---:|:---|
+	|```obscure```|Realiza algunos test a la contraseña: palíndromo, diferenciar mayúsculas de minúsculas...|
+	|```use_authtok```|Si hay alguna contraseña pendiente, usa esa contraseña antes de usar la nueva.|
+	|```try_first_pass```|Antes de cambiar la contraseña, verifica que las anteriores contraseñas cumplen la norma también.|
+	|```sha512```|Usa este tipo de encriptación.|
+	|```minlen=```N|La longitud mínima de la contraseña es N.|
 
+	<br>
 
+	- Configura el resto de los ajustes. Encuentra la línea:
 
+			password requisite pam_pwquality.so retry=3
 
+		- Añade lo siguiente:
 
+				password requisite pam_pwquality.so retry=3 lcredit =-1 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=0 difok=7 enforce_for_root
 
+	|Elemento|Descripción|
+	|--:|:--|
+	|```lcredit=```N|Minimum number of *lower-case* characters.|
+	|```ucredit=```N|Minimum number of *upper-case* characters.|
+	|```dcredit=```N|Minimum number of *digit* characters.|
+	|```maxrepeat=```N|Maximun character repetition.|
+	|```usercheck=```N|If the password can contain the user name in some form (1: ON, 0: OFF).|
+	|```difok=```N|Minimum number of chararters that must be different from the previous password.|
+	|```enforce_for_root```|This rules also apply for root users.|
 
+	- Deberías terminar con algo parecido a esto:
+		<br><br>
+		![result](./res/etc_pam.d_common-password_result.png)
+<br><br>
+- Cambia las reglas de expiración/caducidad:
+	- Abre el archivo:
+
+			sudo vi /etc/login.defs
+
+	- Modifica las siguientes líneas:
+
+			PASS_MAX_DAYS 9999
+			PASS_MIN_DAYS 0
+			PASS_WARN_AGE 7
+
+	|Elemento|Descripción|
+	|---:|:---|
+	|```PASS_MAX_DAYS``` N|Vida máxima de una contraseña en días.|
+	|```PASS_MIN_DAYS``` N|Mínima vida de una contraseña (0 to disable).|
+	|```PASS_WARN_AGE``` N|Recibe una notificación N días antes de cambiar la contraseña.|
+
+	- En mi caso, terminé con:
+
+			PASS_MAX_DAYS 30
+			PASS_MIN_DAYS 2
+			PASS_WARN_AGE 7
+
+- Ya está! Reinicia la máquina virtual para aplicar los cambios.
+
+		sudo reboot
+
+	Desde ahora, cada usuario que **creemos** seguirá estas normas.
+
+- Si ejecutamos:
+
+		chage -l USER
+	
+	y
+
+		sudo chage -l root
+
+	Verás que la configuración de la caducidad de las contraseñas de ambos usuarios no ha cambiado. Para cambiarla:
+
+		sudo chage USER
+
+	y
+
+		sudo chage root
+
+	- Ejemplo de ejecución:
+		<br><br>
+		![sudo chage USER](res/chage_user.png)
+		![chage -l USER](res/chage_l_user.png)
+		![sudo chage root](res/chage_root.png)
+		![sudo chage -l root](res/chage_l_root.png)
+		<br><br>
+
+- Cambia las passwords de USER y root para forzar que sigan las nuevas reglas:
+
+		passwd USER
+		sudo passwd root
+
+## Configuración de grupos del usuario:
 
 
 # Notes:
