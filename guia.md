@@ -334,9 +334,36 @@ En nuestro caso, nos piden definir dos grupos: sudo y user42. El primero es el q
 	
 	- **Nota**: Recuerda que esta guía ya ha añadido el usuario al grupo sudo. Si no fuese así, añádele ahora.
 
+## Configuración de sudoers:
+- Edita el archivo ```/etc/sudoers```
 
+		sudo visudo
 
+	Modifica el archivo para tener:
 
+		Defaults	env_reset
+		Defaults	mail_badpass
+		Defaults	badpass_message="Ups! Password is wrong. Let's try again."
+		Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+		Defaults	passwd_tries=3
+		Defaults	logfile="/var/log/sudo/sudo.log"
+		Defaults	log_input,log_output
+		Defaults	requiretty
+
+	|Elemento|Descripción|
+	|---:|:---|
+	|```env_reset```|Reinicia la variable de entorno (para sólo mostrar los comandos adecuados a los usuarios adecuados)|
+	|```mail_badpass```|Manda un mensaje si falla la autenticación.|
+	|```badpass_message="```MESSAGE```"```|Define el mensaje que imprime cuando falla la contraseña.|
+	|```secure_path="```PATHS```"```|Define el valor de la variable PATH.|
+	|```passwd_tries=```N|Números de intentos para iniciar sesión.|
+	|```logfile="```PATH```"```|Dirección donde guardar los registros de los usuarios que usan estos comandos.|
+	|```log_input,log_output```|Registros que guardar.|
+	|```requiretty```|Se pone para evitar un fallo de seguridad donde puedes iniciar sesión como root directamente.|
+
+- Ejecuta este comando para asegurarnos de que existe el directorio ```/var/log/sudo```:
+
+		sudo mkdir -p /var/log/sudo
 
 
 # Notes:

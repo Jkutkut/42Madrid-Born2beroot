@@ -357,8 +357,8 @@ In our case, we want to define two groups: sudo and user42. The first one was th
 	|```badpass_message="```MESSAGE```"```|Set the message to print if the authentication fails.|
 	|```secure_path="```PATHS```"```|Define the PATH variable value.|
 	|```passwd_tries=```N|Number of attempts to log in.|
-	|```logfile="```PATH```"```|Path where the log files are stored. If the path doesn't exist, create it.|
-	|```log_input,log_output```|Create those files to store logs.|
+	|```logfile="```PATH```"```|Path where the log files are stored.|
+	|```log_input,log_output```|Logs to store.|
 	|```requiretty```|If some non-root code is exploited (a PHP script, for example), the requiretty option means that the exploit code won't be able to directly upgrade its privileges by running sudo.)|
 
 - Execute this command to ensure the directory ```/var/log/sudo``` exists:
