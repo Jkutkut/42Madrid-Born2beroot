@@ -1,9 +1,16 @@
 # 42Madrid-born2beroot:
 
 ## English version:
-- [Guide](./guide.md)
-- [Subject](./.info/en.subject.pdf)
+|File|Link|
+|:---:|:---|
+|Subject|[link](./.info/en.subject.pdf)|
+|Guide|[link](./guide.md)|
+|monitoring.sh|[link](./monitoring.sh)|
+
 
 ## Versión en español:
-- [Guía](./guia.md)
-- [Enunciado](./.info/es.subject.pdf)
+|File|Link|
+|:---:|:---|
+|Enunciado|[link](./.info/es.subject.pdf)|
+|Guía|[link](./guia.md)|
+|monitoring.sh|[link](./monitoring.es.sh)|
