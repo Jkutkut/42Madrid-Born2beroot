@@ -471,6 +471,15 @@ Los archivos de registro/log se guardan en el directorio ```/var/log/sudo```.
 
 - ¿Cómo funciona? Ejecuta dos veces cada minuto el script. Sin embargo, el segundo se retrasa 30s para que entre ambos se ejecuten cada 30s.
 
+## Parar la ejecución de monitoring.sh:
+- Parar el servicio sin abrir el archivo:
+
+		sudo systemctl stop cron
+
+- Para volver a activarlo:
+
+		sudo systemctl enable cron
+
 
 ## Crear un nuevo usuario:
 - Crea el nuevo usuario USER:
@@ -483,6 +492,15 @@ Los archivos de registro/log se guardan en el directorio ```/var/log/sudo```.
 
 		sudo usermod -aG sudo USER
 		sudo usermod -aG user42 USER
+
+# Apagar la máquina virtual desde la consola de comandos:
+- Estos comandos nos permiten apagar la máquina desde la propia terminal o desde una conexión ssh:
+
+		sudo shutdown -h now
+
+- También puedes usar:
+
+		sudo init 0
 
 # Notas:
 - Cuando el comando *su -* es mostrado, la intención es que se ejecute siendo root. Por tanto, todas las secciones que no usen ese comando están pensadas para ser ejecutadas no siendo root (```USER```).
@@ -498,3 +516,6 @@ Los archivos de registro/log se guardan en el directorio ```/var/log/sudo```.
 	- GROUP
 	- MESSAGE
 	- FILE
+- Existen algunos comandos que pueden usarse con varios nombres:
+	- ```systemclt```: también funciona con ```service```.
+	- ```vim```: 
