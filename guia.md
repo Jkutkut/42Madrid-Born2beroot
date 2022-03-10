@@ -417,9 +417,9 @@ Estos pasos nos permitirán ejecutar comandos en una fecha y/o hora determinada.
 
 ## Obtener la firma de LVM:
 - Dirígete a la localización donde esté instalada la máquina virtual.
-- Encuentra el archivo ```.dvi```:
+- Encuentra el archivo ```.vdi```:
 
-		find . -name "*.dvi"
+		find . -name "*.vdi"
 - Ve al directorio donde está el archivo.
 - Ejecuta este comando:
 
