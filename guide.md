@@ -472,6 +472,15 @@ The log files are located on the ```/var/log/sudo``` directory.
 		#*/10 * * * * /usr/local/bin/monitoring.sh
 - How it works? It runs 2 times the same script every minute. However, the second one is delayed 30s to make the whole process to be executed every 30s.
 
+## Stop the monitoring:
+- To stop the monitoring without opening the script, we can stop the service with:
+
+		sudo systemctl stop cron
+
+- To start again:
+
+		sudo systemctl enable cron
+
 ## Create a new user:
 - Create user USER
 
@@ -483,6 +492,18 @@ The log files are located on the ```/var/log/sudo``` directory.
 
 		sudo adduser USER sudo
 		sudo adduser USER user42
+
+## Shutdown VM from command line:
+- These commands work from local terminal and from a SHH connection.
+
+		sudo shutdown -h now
+
+- Another command (equivalent) is:
+
+		sudo init 0
+
+- Note that if we are connected via SSH, the commands will work the same way.
+
 
 # Notes:
 - When the command *su -* is present, the intention is to be executed as root. Therefore, all sections not using this command are supposed to be run without being root (as the ```USER```42).
@@ -498,3 +519,6 @@ The log files are located on the ```/var/log/sudo``` directory.
 	- GROUP
 	- MESSAGE
 	- FILE
+- Keep in mind there're a lot of ways to run the same commands. For example:
+  - ```systemctl```: also works using ```service```.
+  - ```vim```: also works (if installed) using ```vi```.

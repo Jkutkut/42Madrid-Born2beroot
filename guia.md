@@ -518,4 +518,4 @@ Los archivos de registro/log se guardan en el directorio ```/var/log/sudo```.
 	- FILE
 - Existen algunos comandos que pueden usarse con varios nombres:
 	- ```systemclt```: también funciona con ```service```.
-	- ```vim```: 
+	- ```vim```: también funciona (si está instalado) con ```vi```.
