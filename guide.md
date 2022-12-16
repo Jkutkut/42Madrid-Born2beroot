@@ -222,7 +222,7 @@ This step will allow us to enforce some requirements on the passwords generated 
 
 		- Add the following at the end:
 
-				password requisite pam_pwquality.so retry=3 lcredit =-1 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=0 difok=7 enforce_for_root
+				password requisite pam_pwquality.so retry=3 lcredit =-1 ucredit=-1 dcredit=-1 maxrepeat=3 usercheck=0 enforce_for_root difok=7
 
 	|Element|Explanation|
 	|--:|:--|
